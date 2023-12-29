@@ -1,0 +1,57 @@
+{%extends 'base.html' %}
+
+{%block content%}
+{% load crispy_forms_tags %}
+<div class="profile_section container my-5">
+   <div class="container text-center">
+        <h1>Welcome to the Profile page <span class='text-danger'>{{user}}</span></h1>
+        <hr>
+   </div>
+   <a class='btn btn-success' href="{% url 'update_profile' %}">Edit your profile</a>
+   <hr>
+
+
+   <div class="row">
+      <div class="col-2">
+         <h3>Category:</h3>
+      </div>
+      <div class="col-10">
+         <div class="display_data container my-5">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for data in postData%}
+                    <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                        <h5 class="card-title">{{data.title}}</h5>
+                        <p class="card-text">
+                            {{data.content | truncatechars:150}}
+                        </p>
+                        <p>Author: {{data.author.first_name}} {{data.author.last_name}}</p>
+                        <p class=''>Category: 
+                            {%for cat in data.category.all %}
+                                <btn style="margin-bottom: 4px" class='btn btn-light btn-sm border'>
+                                    {{cat.category_name}}
+                                </btn>
+                            {%endfor%}
+                        </p>
+      
+                        {%if request.user.is_authenticated%}
+                            <a href="{% url 'edit_post' data.id %}" class="btn btn-primary">Edit</a>
+                            <a href="{% url 'delete_post' data.id %}" class="btn btn-danger">Delete</a>
+                        {%endif%}
+      
+      
+      
+                        </div>
+                    </div>
+                    </div>
+                {%endfor%}
+      
+              </div>
+        </div>
+      </div>
+   </div>
+
+
+</div>
+{%endblock%}

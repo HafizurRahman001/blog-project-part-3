@@ -1,0 +1,11 @@
+{%extends 'base.html' %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<form class='my-5 py-4 px-5' style=" background-color:antiquewhite; width:50%; margin:auto" method = 'post' action="">
+    <h1 class='pb-2'>Add Category</h1>
+    {% csrf_token %}
+    {{form | crispy}}
+    <input class='btn btn-danger px-4' type="submit" value="Submit">
+</form>
+{%endblock%}

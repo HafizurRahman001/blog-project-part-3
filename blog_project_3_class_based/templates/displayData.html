@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{%block content%}
+    <div class="display_data container my-5">
+        <div class="row">
+            <div style='background-color:#dcdcdc4a' class="col-2 rounded p-3">
+                <h3>Category:</h3>
+                {%for cat in categories %}
+                    <div class="form-check">
+                        <input class="form-check-input" 
+                        type="radio" 
+                        name="category" 
+                        id="{{cat.id}}">
+
+                        <label class="form-check-label" for="{{cat.id}}">
+                            <a class='nav-link' href="{%url 'category_wise_post' cat.slug %}">{{cat}}</a>
+                        </label>
+                    </div>
+                {%endfor%}
+            </div>
+            <div  class="col-10 p-4">
+                <h3>Total <span class='text-danger'>{{postData |length }}</span> Results Found</h3>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for data in postData%}
+                    
+                        <div class="col">
+                     <a class='nav-link' href="{% url 'details' data.id %} ">
+                        <div class="card">
+                            <img src="{{data.image.url}}" class='img-fluid' alt="show image">
+                            <div class="card-body">
+                            <h5 class="card-title">{{data.title}}</h5>
+                            <p class="card-text">
+                                {{data.content | truncatechars:150}}
+                            </p>
+                            <p>Author: {{data.author.first_name}} {{data.author.last_name}}</p>
+                            <p class=''>Category: 
+                                {%for cat in data.category.all %}
+                                    <btn style="margin-bottom: 4px" class='btn btn-light btn-sm border'>
+                                        {{cat.category_name}}
+                                    </btn>
+                                {%endfor%}
+                            </p>
+        
+        
+        
+                            </div>
+                        </div>
+                    </a>
+                        </div>
+                    {%endfor%}
+        
+                </div>
+            </div>
+           
+        </div>
+    </div>
+{%endblock%}

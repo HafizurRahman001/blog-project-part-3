@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+<div class='container'>
+    <div class="row my-5">
+        <div class="col-6 bg-warning">
+            <img style='w-50' src="{{object.image.url}}" class='img-fluid' alt="show image">
+        </div>
+        <div class="col-6">
+            <div class="card">
+        
+                <div class="card-body">
+                <h5 class="card-title">{{object.title}}</h5>
+                <p class="card-text">
+                    {{object.content}}
+                </p>
+                <p>Author: {{object.author.first_name}} {{object.author.last_name}}</p>
+                <p class=''>Category: 
+                    {%for cat in object.category.all %}
+                        <btn style="margin-bottom: 4px" class='btn btn-light btn-sm border'>
+                            {{cat.category_name}}
+                        </btn>
+                    {%endfor%}
+                </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="card">
+        <h1 class='p-2'>Total comments: {{comments | length}}</h1>
+        {%for cmnt in comments %}
+        <div class="card-body border rounded mx-2 mb-1">
+            <span class='text-secondary pb-3 me-2'>{{cmnt.name}}</span>
+            {% comment %} <span class='text-secondary pb-3 me-2'>{{cmnt.email}}</span> {% endcomment %}
+            <span class='text-secondary pb-3 me-2'>{{cmnt.created_on | date:'d/m/Y H:i'}}</span>
+            <p>{{cmnt.body}}</p>
+        </div>
+        {%endfor%}
+      </div>
+
+
+    {% load crispy_forms_tags %}
+<form class='my-5 py-4 px-5' style=" background-color:antiquewhite; " method = 'post' action="">
+    <h1 class='pb-2'>Add Comments</h1>
+    {% csrf_token %}
+    {{comment_form | crispy}}
+    <input class='btn btn-danger px-4' type="submit" value="Submit">
+</form>
+
+
+</div>
+
+{%endblock%}
